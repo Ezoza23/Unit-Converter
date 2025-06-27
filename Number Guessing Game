@@ -1,0 +1,14 @@
+target=23
+while True:
+    try:
+        guess=int(input('Enter your guess: '))
+        if guess==target:
+            print(f"Congratulations! You've got it right!")
+            break
+        else:
+            if guess>target:
+                print('Choose lower!')
+            else:
+                print('Choose higher')
+    except ValueError:
+        print('Only numbers are accepted')
