@@ -1,0 +1,139 @@
+import random
+family_member=int(input('How many person in a family?: '))
+diction_info={}
+while family_member>0:
+    user_name=input('Enter your name: ')
+    questions =[
+        {
+            "question": "Which planet is the farthest from the Sun in our solar system?",
+            "options": ["A. Uranus", "B. Saturn", "C. Neptune", "D. Mars"],
+            "answer": "C"
+        },
+        {
+            "question": "What do bees collect from flowers to make honey?",
+            "options": ["A. Nectar", "B. Pollen", "C. Leaves", "D. Seeds"],
+            "answer": "A"
+        },
+        {
+            "question": "What is the tallest animal in the world?",
+            "options": ["A. Elephant", "B. Giraffe", "C. Kangaroo", "D. Polar Bear"],
+            "answer": "B"
+        },
+        {
+            "question": "How many hours are there in two days?",
+            "options": ["A. 24", "B. 36", "C. 48", "D. 72"],
+            "answer": "C"
+        },
+        {
+            "question": "Which part of a plant carries water from the roots to the leaves?",
+            "options": ["A. Flower", "B. Stem", "C. Leaf", "D. Seed"],
+            "answer": "B"
+        },
+        {
+            "question": "What kind of animal is a Komodo dragon?",
+            "options": ["A. Snake", "B. Lizard", "C. Frog", "D. Fish"],
+            "answer": "B"
+        },
+        {
+            "question": "Which shape has six sides?",
+            "options": ["A. Pentagon", "B. Hexagon", "C. Octagon", "D. Heptagon"],
+            "answer": "B"
+        },
+        {
+            "question": "Which continent is known for having the most countries?",
+            "options": ["A. Europe", "B. Asia", "C. Africa", "D. South America"],
+            "answer": "C"
+        },
+        {
+            "question": "Which holiday celebrates giving thanks with a big meal in the United States?",
+            "options": ["A. Christmas", "B. Halloween", "C. Thanksgiving", "D. Independence Day"],
+            "answer": "C"
+        },
+        {
+            "question": "What do you call a story where animals talk and there's a lesson at the end?",
+            "options": ["A. Fable", "B. Poem", "C. Legend", "D. Diary"],
+            "answer": "A"
+        },
+        {
+            "question": "What is the fastest land animal?",
+            "options": ["A. Lion", "B. Antelope", "C. Cheetah", "D. Ostrich"],
+            "answer": "C"
+        },
+        {
+            "question": "Which ocean is the biggest in the world?",
+            "options": ["A. Atlantic", "B. Arctic", "C. Indian", "D. Pacific"],
+            "answer": "D"
+        },
+        {
+            "question": "How many legs does a spider have?",
+            "options": ["A. 6", "B. 8", "C. 10", "D. 12"],
+            "answer": "B"
+        },
+        {
+            "question": "Which planet is known for its rings?",
+            "options": ["A. Mars", "B. Venus", "C. Saturn", "D. Mercury"],
+            "answer": "C"
+        },
+        {
+            "question": "What color do you get when you mix red and yellow?",
+            "options": ["A. Purple", "B. Green", "C. Orange", "D. Brown"],
+            "answer": "C"
+        },
+        {
+            "question": "What do we call a baby goat?",
+            "options": ["A. Kid", "B. Calf", "C. Cub", "D. Chick"],
+            "answer": "A"
+        },
+        {
+            "question": "What does a thermometer measure?",
+            "options": ["A. Weight", "B. Speed", "C. Temperature", "D. Sound"],
+            "answer": "C"
+        },
+        {
+            "question": "Which fairy tale character had a glass slipper?",
+            "options": ["A. Snow White", "B. Cinderella", "C. Belle", "D. Rapunzel"],
+            "answer": "B"
+        },
+        {
+            "question": "Which of these is NOT a type of cloud?",
+            "options": ["A. Cirrus", "B. Cumulus", "C. Stratus", "D. Nimbuson"],
+            "answer": "D"
+        },
+        {
+            "question": "Which bird can mimic human speech?",
+            "options": ["A. Owl", "B. Parrot", "C. Eagle", "D. Robin"],
+            "answer": "B"
+        }
+] 
+    score=0
+    incorrect=[]
+    random.shuffle(questions)
+    for num, question in enumerate(questions, 1):
+        print(f'{num}. {question["question"]}')
+        for i in question['options']:
+            print(i)
+        while True:
+            user_answer=input('Answer: ').upper()
+            if user_answer==question['answer']:
+                score+=1
+                break
+            elif user_answer not in ["A", "B", "C", "D"]:
+                print('Sorry, there is no such option')
+            else:
+                incorrect.append(num)
+                break
+    print(f'{user_name} found {score} questions correctly out of {len(questions)} questions')
+    if score==len(questions):
+        print('Congratulations!!!')
+    for i in incorrect:
+        print(f'Incorrect answer for the question number_{i}')
+    diction_info[user_name]=score
+    family_member-=1
+
+highest=max(diction_info.values())
+k={k:v for k, v in diction_info.items() if v==highest}
+for name, score in k.items():
+    print(f'Congratulations to the person who ranked as champion of the quiz {name} with {score} score.')
+with open('Rank', 'a') as file:
+    for k, v in diction_info.items():
+        file.write(f'{k}: {v}\n')
