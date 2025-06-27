@@ -1,0 +1,18 @@
+while True:
+    try:
+        num1=int(input('Enter first number: '))
+        user_choice = input('Enter your choice (+-/*): ')
+        num2=int(input('Enter second number: '))
+        operations = {'+': lambda a, b: a + b, '-': lambda a, b: a - b,
+                      '/': lambda a, b: 'can not be divided by 0' if b == 0 else a / b, '*': lambda a, b: a * b}
+        if user_choice in operations.keys():
+            operation = operations.get(user_choice)
+            answer=operation(num1, num2)
+            print(answer)
+            with open('numbers', 'a') as file:
+                file.write(f'{str(num1)}{user_choice}{str(num2)}={answer}')
+            break
+        else:
+            print('invalid operation')
+    except ValueError:
+        print('Only numbers can be accepted')
