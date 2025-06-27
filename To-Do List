@@ -1,0 +1,100 @@
+def add_tasks():
+        user=input("Enter a new task: ").split(';')
+        with open('Tasks', 'r') as file1:
+            content=file1.readlines()
+        with open("Tasks", 'a') as file:
+                for i, task in enumerate(user, len(content)+1):
+                        file.write(f'{i}.{task}\n')
+        print('\n')
+
+
+
+def all_tasks():
+        with open('Tasks', 'r') as file:
+            if not file:
+                print('No tasks available\n')
+            else:
+                for line in file:
+                        print(line.strip())
+        print('\n')
+
+def tick():
+    try:
+        n = int(input("Enter the number of the task that you want to tick: "))
+    except ValueError:
+        print("Please enter a valid number.\n")
+        return
+
+    try:
+        with open('Tasks', 'r') as file:
+            lines = file.readlines()
+
+        if n < 1 or n > len(lines):
+            print("Task not found.\n")
+            return
+
+        user1 = input("Complete/Incomplete: ").strip()
+        lines[n - 1] = lines[n - 1].strip() + f" - {user1}\n"
+
+        with open('Tasks', 'w') as file:
+            file.writelines(lines)
+
+        print(f"{lines[n-1]}.\n")
+    except FileNotFoundError:
+        print("'Tasks' file not found.\n")
+
+
+def delete():
+    try:
+        user=input('Enter a number of task you want to delete or "all" to delete all tasks: ')
+        if user.isnumeric():
+            number=int(user)
+            with open('Tasks', 'r') as file:
+                content=file.readlines()
+            if number>len(content) or number<0:
+                print('Task not found\n')
+            else:
+                new=content.pop(number-1)
+                with open('Tasks', 'w') as file1:
+                    for i, line in enumerate(content, start=1):
+                        task = line.split('.', 1)[1]  # remove the old number
+                        file1.write(f'{i}.{task}')
+
+                print(f'{new}: task is deleted\n')
+        else:
+            with open('Tasks', 'r') as file2:
+                f_content=file2.readlines()
+                f_content.clear()
+            with open('Tasks', 'w') as f1:
+                for i in f_content:
+                    f1.write(i)
+            print('All tasks are deleted!\n')
+
+
+
+
+    except ValueError:
+        print('You should enter the number of the task\n')
+
+
+
+
+commands={'tasks': all_tasks, '+': add_tasks, 'm': tick, '-': delete}
+while True:
+        user_choice=input('''Enter your choice;
+tasks: All tasks
++: Add task
+m: Mark task
+-: Delete task
+x: Quit:
+''').lower()
+
+        if user_choice=='x':
+            print('Quited. Good bye')
+            break
+        else:
+            command = commands.get(user_choice)
+            if command:
+                 command()
+            else:
+                print('Oops, there is no such option.\n')
