@@ -1,0 +1,105 @@
+import random
+def start():
+    try:
+
+        with open('correct_spelled_words', 'r') as file:
+            words=file.read().split()
+
+        target_word=random.choice(words)
+        guess=['_' for i in target_word]
+        n=0
+        max_tries=6
+        hangman_stages = [
+            """
+             +---+
+             |   |
+                 |
+                 |
+                 |
+                 |
+            ========""",
+            """
+             +---+
+             |   |
+             O   |
+                 |
+                 |
+                 |
+            ========""",
+            """
+             +---+
+             |   |
+             O   |
+             |   |
+                 |
+                 |
+            ========""",
+            """
+             +---+
+             |   |
+             O   |
+            /|   |
+                 |
+                 |
+            ========""",
+            """
+             +---+
+             |   |
+             O   |
+            /|\\  |
+                 |
+                 |
+            ========""",
+            """
+             +---+
+             |   |
+             O   |
+            /|\\  |
+            /    |
+                 |
+            ========""",
+            """
+             +---+
+             |   |
+             O   |
+            /|\\  |
+            / \\  |
+                 |
+            ========"""
+        ]
+        print(''.join(guess))
+        while '_' in guess and n < len(hangman_stages):
+
+            user=input('Guess a letter: ').strip().lower()
+            if len(user)>1:
+                if user==target_word:
+                    guess=list(target_word)
+                    break
+                else:
+                    print('Incorrect guess')
+            elif user in target_word:
+                for i, l in enumerate(target_word):
+                    if l==user:
+                        guess[i]=user
+                print('Correct: '+''.join(guess))
+            else:
+                print(hangman_stages[n])
+                max_tries -= 1
+                n+=1
+        if '_' not in guess:
+            print(f'Congratulations! You guessed correctly the chosen word - "{''.join(guess)}".')
+        else:
+            print(f'You lost. Chosen word was - "{target_word}"')
+
+
+    except FileNotFoundError:
+        print('File not found')
+while True:
+    user_choice=input('Start/Stop: ').lower()
+    if user_choice=='start':
+        start()
+    elif user_choice=='stop':
+        print('Game is over')
+        break
+    else:
+        print('Invalid option. Please type start/stop!')
